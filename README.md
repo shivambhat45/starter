@@ -1,5 +1,5 @@
 
-# Basic-Image-Classification
+# Basic Image Classification
 
 PyTorch code for image classification using CNNs along with some ablation experiments to improve learning without over-fitting
 
@@ -11,12 +11,11 @@ Please note that the theory corresponding to the codes are hosted on [[link]]
 
 ## Python Environment Setup
 
-Ensure the following is installed in your pyhton environment:
+Ensure the following is installed in your python environment:
 
 - Numpy - required for vectorized operations
 - Pytorch - required for automatic backpropagation over compute graphs (try installing the hardware accelerated version if possible)
-- Torchvision - required for downloading theimage datasets and pre-processing images when loading data
-- Matploitlib - required for plotting
+- Torchvision - required for downloading the image datasets and pre-processing images when loading data
 
 ## Pytorch Neural netowks
 
@@ -26,7 +25,7 @@ Execute the following script to train Pytorch Neural Network models for image cl
 python main.py <version_number>
 ```
 
-|Version|Dataset      |Train Acc|Test Acc|Params|Optimizer|Remarks|
+|Version|Dataset|Train Acc|Test Acc|Params|Optimizer|Remarks|
 |:-----:|:-----------:|:-------:|:------:|:----:|---------|----|
 |1      |MNIST        |0.95     |0.95    |80K   |SGD      |We start with a simple MLP on MNIST dataset|
 |2      |Fashion-MNIST|0.87     |0.85    |80K   |SGD      |Since MLP on MNIST is already performing good, we switch to FashionMNIST where there is room for improvement|
