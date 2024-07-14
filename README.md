@@ -26,24 +26,17 @@ Execute the following script to train Pytorch Neural Network models for image cl
 python main.py <version_number>
 ```
 
-|Version|Dataset      |Train Acc|Test Acc|Params|Optimizer|Remarks                                                    |
-|:-----:|:-----------:|:-------:|:------:|:----:|---------|-----------------------------------------------------------|
-|1      |MNIST        |0.95     |0.95    |80K   |SGD      |We start with a simple MLP on MNIST dataset                |
-|2      |Fashion-MNIST|0.87     |0.85    |80K   |SGD      |Since MLP on MNIST is already performing good, we switch to|
-|       |             |         |        |      |         |FashionMNIST where there is room for improvement           |
-|3      |Fashion-MNIST|0.88     |0.87    |9K    |SGD      |We switch to a simple conv-net and which exploits spatial  |
-|       |             |         |        |      |         |correlation in the data, and gets more acc with less params|
-|4      |Fashion-MNIST|0.90     |0.89    |1M    |SGD      |We create an over-powered model with excessive number of   |
-|       |             |         |        |      |         |params to try and overfit to dataset, but that didn't work |
-|5      |Fashion-MNIST|0.99     |0.92    |1M    |Adam     |Just changing the optimizer to Adam led to overfitting. But|
-|       |             |         |        |      |         |test results also good, thus less room for improvment      |
-|6      |Cifar10      |0.75     |0.66    |33K   |Adam     |We switch to a simple conv-net on the Cifar10 dataset but  |
-|       |             |         |        |      |         |the model doesn't perform well even on the train set       |
-|7      |Cifar10      |0.87     |0.66    |33K   |Adam     |Previous model didn't train due to vanishing gradient. We  |
-|       |             |         |        |      |         |use batch normalization to improve learning                |
-|8      |Cifar10      |0.99     |0.76    |0.6M  |Adam     |We switch to a bigger conv-net and overfit to the dataset  |
-|9      |Cifar10      |0.95     |0.81    |0.6M  |Adam     |Since we are overfitting, we use dropout regularization to |
-|       |             |         |        |      |         |improve test accuracy at the cost of some training accuracy|
+|Version|Dataset      |Train Acc|Test Acc|Params|Optimizer|Remarks|
+|:-----:|:-----------:|:-------:|:------:|:----:|---------|----|
+|1      |MNIST        |0.95     |0.95    |80K   |SGD      |We start with a simple MLP on MNIST dataset|
+|2      |Fashion-MNIST|0.87     |0.85    |80K   |SGD      |Since MLP on MNIST is already performing good, we switch to FashionMNIST where there is room for improvement|
+|3      |Fashion-MNIST|0.88     |0.87    |9K    |SGD      |We switch to a simple conv-net and which exploits spatial correlation in the data, and gets more acc with less params|
+|4      |Fashion-MNIST|0.90     |0.89    |1M    |SGD      |We create an over-powered model with excessive number of params to try and overfit to dataset, but that didn't work|
+|5      |Fashion-MNIST|0.99     |0.92    |1M    |Adam     |Just changing the optimizer to Adam led to overfitting. But test results also good, thus less room for improvment|
+|6      |Cifar10      |0.75     |0.66    |33K   |Adam     |We switch to a simple conv-net on the Cifar10 dataset but the model doesn't perform well even on the train set|
+|7      |Cifar10      |0.87     |0.66    |33K   |Adam     |Previous model didn't train due to vanishing gradient. We use batch normalization to improve learning|
+|8      |Cifar10      |0.99     |0.76    |0.6M  |Adam     |We switch to a bigger conv-net and overfit to the dataset|
+|9      |Cifar10      |0.95     |0.81    |0.6M  |Adam     |Since we are overfitting, we use dropout regularization to improve test accuracy at the cost of some training accuracy|
 
 After execution, you should get outputs like the following:
 
