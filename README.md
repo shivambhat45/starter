@@ -17,7 +17,7 @@ Ensure the following is installed in your python environment:
 - Pytorch - required for automatic backpropagation over compute graphs (try installing the hardware accelerated version if possible)
 - Torchvision - required for downloading the image datasets and pre-processing images when loading data
 
-## Pytorch Neural netowks
+## Pytorch Neural netowrks
 
 Execute the following script to train Pytorch Neural Network models for image classification:
 
