@@ -35,11 +35,12 @@ def get_data(
     else:
         raise ValueError('Dataset not supported')
 
+    # for some reason num_workers>0 pauses training after every epoch, so not
+    # using it and keeping it at 0 (default value). For more discussion visit:
+    # https://discuss.pytorch.org/t/dataloader-with-num-workers-1-hangs-every-epoch/20323/18
     train_loader = DataLoader(
-        train_data, batch_size=batch_size, shuffle=True,
-        num_workers=4, pin_memory=True)
+        train_data, batch_size=batch_size, shuffle=True, pin_memory=True)
     test_loader = DataLoader(
-        test_data, batch_size=batch_size, shuffle=False,
-        num_workers=4, pin_memory=True)
+        test_data, batch_size=batch_size, shuffle=False, pin_memory=True)
 
     return train_loader, test_loader
