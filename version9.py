@@ -39,7 +39,7 @@ class Net(nn.Module):
 
 def main() -> None:
     # Load the data
-    train_loader, test_loader = get_data('cifar10', batch_size=64)
+    train_loader, test_loader = get_data('cifar10', batch_size=32)
 
     # Create a model
     model = Net()
@@ -49,8 +49,13 @@ def main() -> None:
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
     # Train the model
-    train(model, train_loader, optimizer, epochs=25)
+    train(model, train_loader, optimizer, epochs=50)
 
     # Evaluate the model
     test_loss, test_acc = evaluate(model, test_loader)
     print(f"Test Loss: {test_loss:.4f} | Test Acc: {test_acc:.4f}")
+
+    # Save model 
+    model_path=f'saved_models/cifar10_model_acc_{test_acc:.4f}.pth'
+    torch.save(model.state_dict(), model_path) 
+    print("Model saved")
