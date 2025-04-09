@@ -27,7 +27,7 @@ log_name = "logs/ResNet-%d_cifar10_log/" %(layer_n*6+2)
 #log_name = "./logs/PlainNet-%d_cifar10_log/" %(layer_n*6+2)
 
 
-batch_size = 100
+batch_size = 32
 
 def train(cnn_model, start_epoch, train_loader, test_loader, lr, auto_lr=True):
 
@@ -86,7 +86,9 @@ def train(cnn_model, start_epoch, train_loader, test_loader, lr, auto_lr=True):
                         
             _, predicted = torch.max(output.data, 1)
 
-            train_total += batch_size
+            #   train_total += batch_size
+            train_total += data_x.size(0)
+
             train_correct += (predicted == data_y).sum().item()
 
             loss.backward()
@@ -121,7 +123,8 @@ def train(cnn_model, start_epoch, train_loader, test_loader, lr, auto_lr=True):
                         
                         _, predicted = torch.max(outputs.data, 1)
 
-                        total += batch_size
+                        # total += batch_size
+                        total +=images.size(0)
                         correct += (predicted == labels).sum().item()
                     
                     loss = float(loss) / len(test_loader)
@@ -188,6 +191,20 @@ def weight_init(cnn_model):
         nn.init.constant_(cnn_model.weight, 1)
         nn.init.constant_(cnn_model.bias, 0)
 
+def evaluate_test_accuracy(model, test_loader):
+    model.eval()
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        for images, labels in test_loader:
+            images = images.to(device)
+            labels = labels.to(device)
+            outputs = model(images)
+            _, predicted = torch.max(outputs.data, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
+    acc = correct / total
+    print("Test Accuracy: %.4f" % acc)
 
 
 def main():
@@ -250,9 +267,48 @@ def main():
         # train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=8)
         # val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=8)
 
-        train_dataloader, test_dataloader = get_data('cifar10', batch_size=32)
+        cifar10_mean = [0.4914, 0.4822, 0.4465]
+        cifar10_std = [0.2023, 0.1994, 0.2010]
 
-        train(model, start_epoch, train_dataloader, test_dataloader, lr, True)
+        train_transform = transforms.Compose([
+            transforms.RandomHorizontalFlip(),
+            transforms.RandomCrop(32, padding=4),
+            transforms.ToTensor(),
+            transforms.Normalize(cifar10_mean, cifar10_std)
+        ])
+
+        test_transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize(cifar10_mean, cifar10_std)
+        ])
+
+        # Use get_data() with custom transforms
+        train_dataloader, _ = get_data('cifar10', batch_size=32, transform=train_transform)
+        _, test_dataloader = get_data('cifar10', batch_size=32, transform=test_transform)
+
+        # train_dataloader, test_dataloader = get_data('cifar10', batch_size=32)
+
+        # train(model, start_epoch, train_dataloader, test_dataloader, lr, True)
+        evaluate_test_accuracy(model, test_dataloader)
+
+        # for images, labels in train_dataloader:
+        #     print("Labels:", labels[:10])
+        #     utils.save_image(images[:4], 'sample_batch.png', normalize=True)
+        #     break
+        # for x, y in train_dataloader:
+        #     print("Example labels:", y[:10])
+        #     break
+        # for x, y in train_dataloader:
+        #     print("Tensor stats:")
+        #     print("Shape:", x.shape)
+        #     print("Min:", x.min().item())
+        #     print("Max:", x.max().item())
+        #     print("Mean:", x.mean().item())
+        #     print("Std:", x.std().item())
+        #     break
+
+
+
 
 
 if __name__ == "__main__":
